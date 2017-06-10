@@ -110,7 +110,7 @@ describe('archive helpers', function() {
   });
 
   describe('#addUrlToList', function () {
-    xit('should add a url to the list', function (done) {
+    it('should add a url to the list', function (done) {
       var urlArray = ['example1.com', 'example2.com\n'];
       fs.writeFileSync(archive.paths.list, urlArray.join('\n'));
 
@@ -124,7 +124,7 @@ describe('archive helpers', function() {
   });
 
   describe('#isUrlArchived', function () {
-    xit('should check if a url is archived', function (done) {
+    it('should check if a url is archived', function (done) {
       fs.writeFileSync(archive.paths.archivedSites + '/www.example.com', 'blah blah');
 
       var counter = 0;

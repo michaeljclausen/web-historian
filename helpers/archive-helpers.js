@@ -26,7 +26,7 @@ exports.initialize = function(pathsObj) {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(callback) {
-  fs.readFile(exports.paths.list, 'utf8', (err, data) => {
+  fs.readFile(this.paths.list, 'utf8', (err, data) => {
     if (err) {
       console.log(err);
     } else {
@@ -36,12 +36,34 @@ exports.readListOfUrls = function(callback) {
 };
 
 exports.isUrlInList = function(url, callback) {
+  this.readListOfUrls((listAry) => {
+    callback(listAry.indexOf(url) !== -1);
+  });
 };
 
 exports.addUrlToList = function(url, callback) {
+  this.isUrlInList(url, (isInList) => {
+    if (!isInList) {
+      fs.appendFile(this.paths.list, url, 'utf8', (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          callback(url);
+        }
+      });
+    }
+  });
 };
 
 exports.isUrlArchived = function(url, callback) {
+  fs.access(this.paths.archivedSites + '/' + url, (err) => {
+    if (err) {
+      callback(false);
+      //console.log(err);
+    } else {
+      callback(true);
+    }
+  });
 };
 
 exports.downloadUrls = function(urls) {
